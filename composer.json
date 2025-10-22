@@ -1,0 +1,35 @@
+{
+  "name": "3it/test",
+  "description": "Testovací úloha",
+  "license": "proprietary",
+  "config": {
+    "platform": {
+      "php": "8.4"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app/"
+    }
+  },
+  "require": {
+    "dibi/dibi": "^5.1",
+    "tracy/tracy": "^2.10",
+    "latte/latte": "^3.0",
+    "twbs/bootstrap": "5.3.8"
+  },
+  "scripts": {
+      "post-install-cmd": [
+          "@copy-bootstrap"
+      ],
+      "post-update-cmd": [
+          "@copy-bootstrap"
+      ],
+      "copy-bootstrap": [
+          "mkdir -p www/css",
+          "mkdir -p www/js",
+          "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css www/css/",
+          "cp vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js www/js/"
+      ]
+  }
+}
