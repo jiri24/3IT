@@ -16,7 +16,10 @@
     "dibi/dibi": "^5.1",
     "tracy/tracy": "^2.10",
     "latte/latte": "^3.0",
-    "twbs/bootstrap": "5.3.8"
+    "twbs/bootstrap": "5.3.8",
+    "nette/forms": "^3.2",
+    "justinrainbow/json-schema": "*",
+    "nette/http": "^3.3"
   },
   "scripts": {
       "post-install-cmd": [

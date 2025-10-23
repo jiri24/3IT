@@ -1,4 +1,4 @@
-<?php namespace app;
+<?php namespace app\controllers;
 
 interface App
 {

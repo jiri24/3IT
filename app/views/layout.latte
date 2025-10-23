@@ -1,0 +1,31 @@
+<!doctype html>
+<html class="no-js" lang="cs">
+<head>
+   <meta charset="utf-8"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <title>Test | 3IT.cz</title>
+   <link rel="shortcut icon" href="https://www.3it.cz/favicon.ico" type="image/x-icon">
+   <link rel="stylesheet" href="./css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+   <link href="/css/fontawesome.css" rel="stylesheet" />
+  <link href="/css/solid.css" rel="stylesheet" />
+</head>
+   <body>
+      <div class="container">
+      <ul class="nav nav-pills">
+         <li class="nav-item">
+            <a class="nav-link{if $active==='home'} active{/if}" aria-current="page" href="./">Přehled</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link{if $active==='download'} active{/if}" href="./download">Stáhnout data</a>
+         </li>
+      </ul>
+      </div>
+      
+      <div class="container">
+         {block body/}
+      </div>
+      <script src="js/bootstrap.bundle.min.js"></script>
+   </body>
+</html>
