@@ -25,6 +25,9 @@ Po spuštění webu ja dotaz směřován na příslušný kontroler.
 - Download: Řeší formulář pro stažení dat do databáze.
 - Tabulka: Vykrasluje hlavní stránku.
 
+## Model
+- DataManager: Zajišťuje práci se záznamy v databázi.
+
 ## Funkcionalita
 Aplikace splňuje následující požadavky:
 - **Přenést data** – stažení dat ze vzdáleného zdroje do výstupu dat,
