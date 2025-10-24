@@ -6,9 +6,13 @@ use Latte;
 
 class DataManager
 {
-   public function getData() :array {
+   public function getData(int $limit=0, int $offset=0) :array {
       DbConfig::getDbConnection();
-      return dibi::query('SELECT * FROM `zaznamy` ORDER BY datum')->fetchAll();
+      $query = 'SELECT * FROM `zaznamy` ORDER BY datum';
+      if ($limit > 0 && $offset >= 0) {
+         $query .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
+      }
+      return dibi::query($query)->fetchAll();
    }
 
    public function insertData(array $data) :void {

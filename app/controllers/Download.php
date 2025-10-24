@@ -5,6 +5,9 @@ use Nette\Forms\Form;
 use JsonSchema\Validator;
 use JsonSchema\Constraints\Constraint;
 use app\models\DataManager;
+use Nette\Http\Session;
+use Nette\Http\RequestFactory;
+use Nette\Http\Response;
 
 class Download
    implements App
@@ -69,7 +72,18 @@ class Download
                   // Úspěšná validace
                   $dataManager = new DataManager();
                   $dataManager->insertData($json);
-                  header('Location: /');
+                  // Vytvoření rychlé zprávy a přesměrování na hlavní stránku
+                  $factory = new RequestFactory;
+                  $request = $factory->fromGlobals();
+                  $response = new Response;
+                  $session = new Session($request, $response);
+
+                  $session->start();
+                  $session->getSection('flash')->message = [
+                     'type' => 'success',
+                     'text' => 'Data byla úspěšně stažena.'
+                  ];
+                  $response->redirect('/');
                   exit;
                }
             }
