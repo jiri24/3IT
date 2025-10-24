@@ -6,10 +6,7 @@ use Tracy\Debugger;
 
 require_once '../vendor/autoload.php';
 
-Debugger::enable();
-Debugger::$logDirectory = __DIR__ . '/../zeta/logs/';
-Debugger::$strictMode = true;
-//Debugger::enable(Debugger::PRODUCTION, __DIR__ .'/../zeta/logs/');
+Debugger::enable(Debugger::PRODUCTION, __DIR__ .'/../zeta/logs/');
 
 require_once '../app/DbConfig.php';
 require_once '../app/Latte.php';
