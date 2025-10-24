@@ -1,32 +1,29 @@
-# 3IT - testovací úloha
+# Dokumentace
 
-## Xampp
-1. V případě, že nemáte dostatek zkušeností s Dockerem, můžete pro lokální vývoj použít XAMPP jako alternativu
-
-## Docker
-
-### Webserver 
-1. Ve složce spustíme Docker příkazem:
+## Spuštění
+Projekt spustíte pomocí příkazu:
     ```
     docker-compose up -d
     ```
-    a počkáme až se připraví a spustí Docker.
 
-2. Otevřeme Apache kontejner pomocí příkazu:
-    ```
-    docker exec -it 3it_test_webserver bash
-    ```
+## Struktura aplikace
+Aplikace je rozdělena na několik částí:
+1. app/ - složka obsahující hlavní soubory aplikace (kontrolery, modely, pohledy a další potřebné třídy).
+2. config/ - obsahuje konfigurační souboty Dockeru.
+3. vendor/ - složka knihoven.
+4. www/ - obsah webu (css, Javascriptové soubory, fonty).
+5. zeta/ - složka s cache a soubory s chybovými hlášeními.
 
-4. Nainstalujeme php knihovny dle potřeby:
-    ```
-    composer install
-    ```
-4. V **hosts** si nastavíme doménu **3it-test.localhost** na IP adresu **127.0.0.1**.
-5. Máme připravený projekt na url **http://3it_test.localhost:8050**.
-6. Databáze je dostupná následovně
-    ```
-      host => 3it_test_database
-      user => root
-      password => toor
-      database => 3it-test
-   ```
+## Kontrolery
+Po spuštění webu ja dotaz směřován na příslušný kontroler.
+- API: Na požádání vrací data z databáze.
+- Download: Řeší formulář pro stažení dat do databáze.
+- Tabulka: Vykrasluje hlavní stránku.
+
+## Funkcionalita
+Aplikace splňuje následující požadavky:
+- **Přenést data** – stažení dat ze vzdáleného zdroje do výstupu dat,
+- **Zobrazit data** – strukturované zobrazení stažených záznamů, chronologicky seřazené,
+- **Označit data** – možnost podbarvit libovolné záznamy.
+
+Poznámka: Záznamy je možné označovat i z klávesnice s odečítačem obrazovky (pomocí enteru nebo mezerníku).
