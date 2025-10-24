@@ -11,7 +11,7 @@
     {if !isset($res) || count($res) === 0}
     <p>Nebyly nalezeny žádné záznamy.</p>
     {else}
-    <table class="table">
+    <table class="table" id="data-table">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
         {foreach $res as $row}
-            <tr tabindex="0" role="row" aria-selected="false" onclick="toggleRow(this)">
+            <tr tabindex="0" role="row" aria-selected="false" aria-label="Řádek neoznačen">
                 <th scope="row">{$row['id']}</th>
                 <td>{$row['jmeno']|noescape}</td>
                 <td>{$row['prijmeni']|noescape}</td>
@@ -31,24 +31,101 @@
         {/foreach}
         </tbody>
     </table>
+
+    <div class="text-center">
+        <div id="status" aria-live="polite" class="" role="status">
+            <span id="status-sr" class="visually-hidden"></span>
+        </div><br>
+
+        <button id="load-more-btn" class="btn btn-primary mt-2">Načíst další</button>
+    </div>
     {/if}
-   
+
 <script>
-    document.querySelectorAll('table tbody tr').forEach(row => {
+    const limit = 20;
+    let offset = 0;
+    
+    document.getElementById('load-more-btn').addEventListener('click', async () => {
+        const status = document.getElementById('status');
+        const statusSR = document.getElementById('status-sr');
+        const tableBody = document.querySelector('#data-table tbody');
+
+        statusSR.textContent = 'Načítám další data.';
+        status.classList.add("spinner-border");
+
+        try {
+            // Načtení dat
+            const response = await fetch('/api?limit='+limit+'&offset='+offset);
+            if (!response.ok) throw new Error('Chyba serveru.');
+
+            const data = await response.json();
+        
+            for (const item of data){
+                // Formátování data
+                const date = new Date(item.datum.date);
+                const formatted = date.toLocaleDateString('cs-CZ', {
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric'
+                });
+                // Vytvoření nového řádku v tabulce
+                const row = document.createElement('tr');
+                row.setAttribute('tabindex', '0');
+                row.setAttribute('role', 'row');
+                row.setAttribute('aria-selected', 'false');
+                addColorEvents(row);
+                row.innerHTML = `
+                    <td>`+item.id+`</td>
+                    <td>`+item.jmeno+`</td>
+                    <td>`+item.prijmeni+`</td>
+                    <td>`+formatted+`</td>
+                `;
+                tableBody.appendChild(row);
+            };
+            offset += data.length;
+
+            // Aktualizace informací o načítání
+            statusSR.textContent = 'Bylo načteno '+data.length+' nových záznamů.';
+            status.classList.remove("spinner-border");
+
+            // Odebrání tlačítka
+            if (data.length < limit){
+                const btn = document.getElementById('load-more-btn');
+                btn.parentNode.removeChild(btn);
+            }
+
+            // Posun focusu
+            document.querySelectorAll("#data-table tr")[offset].focus();
+        } catch (error) {
+            console.error(error);
+            statusSR.textContent = 'Nepodařilo se načíst data.';
+            statusSR.classList.remove("visually-hidden");
+        }
+    });
+
+    document.querySelectorAll('#data-table tbody tr').forEach(row => {
+        addColorEvents(row);
+    });
+
+    // Přidá přepínání
+    function addColorEvents(row){
         row.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 toggleRow(row);
             }
-        });         
-    });
+        });
+        row.addEventListener('click', (e) => {
+            toggleRow(row);
+        });
+    }
 
-
+    // Přepne barvu
     function toggleRow(row) {
-        console.log("called");
-        var selected = row.getAttribute('aria-selected') === 'true';
+        const selected = row.getAttribute('aria-selected') === 'true';
         row.setAttribute('aria-selected', !selected);
-        row.setAttribute('class', (selected) ? 'table-primary' : '');
+        row.setAttribute('aria-label', (!selected) ? 'Řádek označen' : 'Řádek neoznačen');
+        row.setAttribute('class', (!selected) ? 'table-primary' : '');
     }
 </script>
 {/block}
