@@ -6,6 +6,11 @@ Projekt spustíte pomocí příkazu:
     docker-compose up -d
     ```
 
+Aplikace je přístupná na adrese:
+    ```
+    localhost:8050
+    ```
+
 ## Struktura aplikace
 Aplikace je rozdělena na několik částí:
 1. app/ - složka obsahující hlavní soubory aplikace (kontrolery, modely, pohledy a další potřebné třídy).
