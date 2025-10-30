@@ -10,9 +10,10 @@ class DataManager
       DbConfig::getDbConnection();
       $query = 'SELECT * FROM `zaznamy` ORDER BY datum';
       if ($limit > 0 && $offset >= 0) {
-         $query .= ' LIMIT ' . $limit . ' OFFSET ' . $offset;
+         return dibi::query($query . ' LIMIT ? OFFSET ?', $limit, $offset)->fetchAll();
+      } else {
+         return dibi::query($query)->fetchAll();
       }
-      return dibi::query($query)->fetchAll();
    }
 
    public function insertData(array $data) :void {
